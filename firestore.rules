@@ -4,8 +4,12 @@ service cloud.firestore {
 	match /databases/{database}/documents {
 		match /users/{uid} {
 			allow read
-			allow create: if isSignedInWith(uid)
-			allow update: if isSignedInWith(uid) || onlyUpdatedFields(['allowContact']) || onlyUpdatedFields(['unsubscribed', 'unsubscribed.due-cards'])
+			allow create: if
+				isSignedInWith(uid)
+			allow update: if
+				isSignedInWith(uid) ||
+				onlyUpdatedFields(['allowContact']) ||
+				onlyUpdatedFields(['unsubscribed', 'unsubscribed.due-cards'])
 			
 			match /blocked/{otherUid} {
 				allow read, create, update
@@ -16,14 +20,17 @@ service cloud.firestore {
 			}
 			
 			match /decks/{deckId} {
-				allow read, write: if isSignedInWith(uid)
+				allow read, write: if
+					isSignedInWith(uid)
 				
 				match /drafts/{draftId} {
-					allow read, write: if isSignedInWith(uid)
+					allow read, write: if
+						isSignedInWith(uid)
 				}
 				
 				match /cards/{cardId} {
-					allow read: if isSignedInWith(uid)
+					allow read: if
+						isSignedInWith(uid)
 				}
 			}
 		}
@@ -34,17 +41,21 @@ service cloud.firestore {
 		
 		match /decks/{deckId} {
 			allow read
-			allow create: if isSignedInAsDeckCreator(getNewData())
-			allow write: if isSignedInAsDeckCreator(getOldData())
+			allow create: if
+				isSignedInAsDeckCreator(getNewData())
+			allow write: if
+				isSignedInAsDeckCreator(getOldData())
 			
 			match /sections/{sectionId} {
 				allow read
-				allow write: if isSignedInAsDeckCreator(getDeck(deckId))
+				allow write: if
+					isSignedInAsDeckCreator(getDeck(deckId))
 			}
 			
 			match /cards/{cardId} {
 				allow read
-				allow write: if isSignedInAsDeckCreator(getDeck(deckId))
+				allow write: if
+					isSignedInAsDeckCreator(getDeck(deckId))
 			}
 		}
 		

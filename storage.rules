@@ -2,12 +2,30 @@ rules_version = '2'
 
 service firebase.storage {
 	match /b/{bucket}/o {
+		match /users/{uid} {
+			allow read
+			allow write: if
+				isSignedInWith(uid)
+		}
+		
 		match /decks/{deckId} {
 			allow read, write
 		}
 		
+		match /user-assets/{uid}/{assetId} {
+			allow read
+		}
+		
 		match /deck-assets/{deckId}/{assetId} {
 			allow read
+		}
+		
+		function isSignedIn() {
+			return request.auth != null
+		}
+		
+		function isSignedInWith(uid) {
+			return isSignedIn() && request.auth.uid == uid
 		}
 	}
 }
