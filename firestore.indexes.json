@@ -45,6 +45,20 @@
 					"order": "ASCENDING"
 				}
 			]
+		},
+		{
+			"collectionGroup": "decks",
+			"queryScope": "COLLECTION",
+			"fields": [
+				{
+					"fieldPath": "creator",
+					"order": "ASCENDING"
+				},
+				{
+					"fieldPath": "currentUserCount",
+					"order": "DESCENDING"
+				}
+			]
 		}
 	],
 	"fieldOverrides": []
