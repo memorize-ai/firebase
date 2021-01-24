@@ -16,7 +16,7 @@ service cloud.firestore {
 			}
 			
 			match /tokens/{token} {
-				allow read, create: if
+				allow read, create, update: if
 					isSignedInWith(uid)
 			}
 			
