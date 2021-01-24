@@ -15,6 +15,11 @@ service cloud.firestore {
 				allow read, create, update
 			}
 			
+			match /tokens/{token} {
+				allow read, create: if
+					isSignedInWith(uid)
+			}
+			
 			match /activity/{day} {
 				allow read
 			}
